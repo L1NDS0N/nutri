@@ -1,5 +1,4 @@
 "use client";
-import { NutritionalAssessment } from "@/models/nutritional-assessment.model";
 import { useState, ChangeEvent, FormEvent } from "react";
 
 interface FormData {
@@ -9,6 +8,13 @@ interface FormData {
   weight: string;
   height: string;
 }
+
+const mockPatients = [
+  { id: 1, name: "João Silva", gender: "male", birthDate: "1990-01-01", weight: "70", height: "175" },
+  { id: 2, name: "Maria Oliveira", gender: "female", birthDate: "1985-05-15", weight: "60", height: "160" },
+  // Adicione mais pacientes conforme necessário
+];
+
 export default function AvaliacaoNutricional() {
   const [formData, setFormData] = useState<FormData>({
     fullName: "",
@@ -28,6 +34,19 @@ export default function AvaliacaoNutricional() {
     });
   };
 
+  const handleSelectPatient = (patientId: number) => {
+    const selectedPatient = mockPatients.find(patient => patient.id === patientId);
+    if (selectedPatient) {
+      setFormData({
+        fullName: selectedPatient.name,
+        gender: selectedPatient.gender,
+        birthDate: selectedPatient.birthDate,
+        weight: selectedPatient.weight,
+        height: selectedPatient.height,
+      });
+    }
+  };
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Realize os cálculos necessários aqui, como IMC, idade, etc.
@@ -40,68 +59,35 @@ export default function AvaliacaoNutricional() {
   };
 
   return (
-    <form className="max-w-xl mx-auto mt-8 p-6 h-screen bg-white rounded-md shadow-md">
+    <form className="max-w-xl mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
       <h2 className="text-2xl font-bold mb-4">
         Formulário de Avaliação Nutricional
       </h2>
-      <div className="grid grid-cols-2 gap-4">
+
+      <div className="grid grid-cols-2 gap-4 mt-4">
         <div>
           <label
-            htmlFor="fullName"
+            htmlFor="patient"
             className="block text-sm font-medium text-gray-600"
           >
-            Nome Completo
-          </label>
-          <input
-            type="text"
-            id="fullName"
-            name="fullName"
-            className="w-full border-2 rounded-md p-2 focus:outline-none focus:ring focus:border-blue-300"
-            onChange={handleChange}
-            value={formData.fullName}
-            required
-          />
-        </div>
-        <div>
-          <label
-            htmlFor="gender"
-            className="block text-sm font-medium text-gray-600"
-          >
-            Gênero
+            Selecione um Paciente
           </label>
           <select
-            id="gender"
-            name="gender"
+            id="patient"
+            name="patient"
             className="w-full border-2 rounded-md p-2 focus:outline-none focus:ring focus:border-blue-300"
-            onChange={handleChange}
-            value={formData.gender}
-            required
+            onChange={(e) => handleSelectPatient(Number(e.target.value))}
+            defaultValue=""
           >
-            <option value="">Selecione</option>
-            <option value="male">Masculino</option>
-            <option value="female">Feminino</option>
+            <option value="" disabled>Escolha um paciente</option>
+            {mockPatients.map(patient => (
+              <option key={patient.id} value={patient.id}>{patient.name}</option>
+            ))}
           </select>
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4 mt-4">
-        <div>
-          <label
-            htmlFor="birthDate"
-            className="block text-sm font-medium text-gray-600"
-          >
-            Data de Nascimento
-          </label>
-          <input
-            type="date"
-            id="birthDate"
-            name="birthDate"
-            className="w-full border-2 rounded-md p-2 focus:outline-none focus:ring focus:border-blue-300"
-            onChange={handleChange}
-            value={formData.birthDate}
-            required
-          />
-        </div>
         <div>
           <label
             htmlFor="weight"
@@ -119,9 +105,6 @@ export default function AvaliacaoNutricional() {
             required
           />
         </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4 mt-4">
         <div>
           <label
             htmlFor="height"
@@ -139,7 +122,6 @@ export default function AvaliacaoNutricional() {
             required
           />
         </div>
-        {/* Adicione outros campos conforme necessário */}
       </div>
 
       <div className="mt-6">

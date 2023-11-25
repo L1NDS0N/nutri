@@ -14,8 +14,8 @@ export default function XSidebar() {
 
   const sidebarItems = [
     { label: "Dashboard", icon: <FaHome size={20} />, link: "/dashboard" },
-    { label: "Avaliação Nutricional", icon: <IoNutrition  size={20} />, link: "/avaliacao-nutricional" },
-    { label: "Pacientes", icon: <FaUser size={20} />, link: "#" },
+    { label: "Avaliação Nutricional", icon: <IoNutrition  size={20} />, link: "/nutritional-assessment" },
+    { label: "Pacientes", icon: <FaUser size={20} />, link: "/patient" },
     { label: "Relatórios", icon: <FaChartBar size={20} />, link: "#" },
   ];
 
