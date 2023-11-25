@@ -4,7 +4,10 @@ import { ImSpinner2 } from "react-icons/im";
 
 export default function Home() {
   const router = useRouter();
-  router.push("/dashboard");
+  
+  if (typeof window !== "undefined") {
+    router.push("/dashboard");
+  }
   
   return (
     <div className="flex items-center justify-center h-screen">
