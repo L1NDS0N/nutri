@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useState } from "react";
 import { FaHome, FaUser, FaChartBar } from "react-icons/fa";
 import { IoNutrition } from "react-icons/io5";
@@ -12,8 +13,8 @@ export default function XSidebar() {
   };
 
   const sidebarItems = [
-    { label: "Dashboard", icon: <FaHome size={20} />, link: "#" },
-    { label: "Avaliação Nutricional", icon: <IoNutrition  size={20} />, link: "#" },
+    { label: "Dashboard", icon: <FaHome size={20} />, link: "/dashboard" },
+    { label: "Avaliação Nutricional", icon: <IoNutrition  size={20} />, link: "/avaliacao-nutricional" },
     { label: "Pacientes", icon: <FaUser size={20} />, link: "#" },
     { label: "Relatórios", icon: <FaChartBar size={20} />, link: "#" },
   ];
@@ -28,14 +29,14 @@ export default function XSidebar() {
           {sidebarItems.map((item, index) => (
             <li key={index} className={`mb-2 md:flex md:items-center ${isOpen ? 'flex' : 'flex-col items-center'}`}>
               {item.icon}
-              <a
+              <Link
                 href={item.link}
                 className={`ml-2 mt-2 md:mt-0 ${
                   isOpen ? "visible" : "hidden md:visible"
                 } hover:text-gray-300`}
               >
                 {isOpen ? item.label : null}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
