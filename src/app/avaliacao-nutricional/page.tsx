@@ -1,5 +1,6 @@
-"use client"
-import { useState, ChangeEvent, FormEvent } from 'react';
+"use client";
+import { NutritionalAssessment } from "@/models/nutritional-assessment.model";
+import { useState, ChangeEvent, FormEvent } from "react";
 
 interface FormData {
   fullName: string;
@@ -8,17 +9,18 @@ interface FormData {
   weight: string;
   height: string;
 }
-
 export default function AvaliacaoNutricional() {
   const [formData, setFormData] = useState<FormData>({
-    fullName: '',
-    gender: '',
-    birthDate: '',
-    weight: '',
-    height: '',
+    fullName: "",
+    gender: "",
+    birthDate: "",
+    weight: "",
+    height: "",
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -33,16 +35,21 @@ export default function AvaliacaoNutricional() {
     const birthDate = new Date(formData.birthDate);
     const currentDate = new Date();
     const ageInYears = currentDate.getFullYear() - birthDate.getFullYear();
-    console.log('Idade:', ageInYears);
+    console.log("Idade:", ageInYears);
     // Adicione outros cálculos conforme necessário
   };
 
   return (
     <form className="max-w-xl mx-auto mt-8 p-6 h-screen bg-white rounded-md shadow-md">
-      <h2 className="text-2xl font-bold mb-4">Formulário de Avaliação Nutricional</h2>
+      <h2 className="text-2xl font-bold mb-4">
+        Formulário de Avaliação Nutricional
+      </h2>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label htmlFor="fullName" className="block text-sm font-medium text-gray-600">
+          <label
+            htmlFor="fullName"
+            className="block text-sm font-medium text-gray-600"
+          >
             Nome Completo
           </label>
           <input
@@ -56,7 +63,10 @@ export default function AvaliacaoNutricional() {
           />
         </div>
         <div>
-          <label htmlFor="gender" className="block text-sm font-medium text-gray-600">
+          <label
+            htmlFor="gender"
+            className="block text-sm font-medium text-gray-600"
+          >
             Gênero
           </label>
           <select
@@ -76,7 +86,10 @@ export default function AvaliacaoNutricional() {
 
       <div className="grid grid-cols-2 gap-4 mt-4">
         <div>
-          <label htmlFor="birthDate" className="block text-sm font-medium text-gray-600">
+          <label
+            htmlFor="birthDate"
+            className="block text-sm font-medium text-gray-600"
+          >
             Data de Nascimento
           </label>
           <input
@@ -90,7 +103,10 @@ export default function AvaliacaoNutricional() {
           />
         </div>
         <div>
-          <label htmlFor="weight" className="block text-sm font-medium text-gray-600">
+          <label
+            htmlFor="weight"
+            className="block text-sm font-medium text-gray-600"
+          >
             Peso (kg)
           </label>
           <input
@@ -107,7 +123,10 @@ export default function AvaliacaoNutricional() {
 
       <div className="grid grid-cols-2 gap-4 mt-4">
         <div>
-          <label htmlFor="height" className="block text-sm font-medium text-gray-600">
+          <label
+            htmlFor="height"
+            className="block text-sm font-medium text-gray-600"
+          >
             Altura (cm)
           </label>
           <input

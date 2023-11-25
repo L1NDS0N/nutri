@@ -1,11 +1,10 @@
-export class Patient {
-    id!: number;
-    name!: string;
-    gender?: boolean;
-    birthday?: Date;
-    phone?: number; // get from mask
+import { z } from "zod";
+import { Z } from "zod-class";
 
-  constructor(obj?: Patient) {
-    Object.assign(this, obj);
-  }
-}
+export class Patient extends Z.class({
+  id: z.number(),
+  name: z.string(),
+  gender: z.boolean().nullable(),
+  birthday: z.date().nullable(),
+  phone: z.string().nullable(),
+}) {}
