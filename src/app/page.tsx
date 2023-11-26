@@ -1,6 +1,6 @@
 "use client";
+import XLoading from "@/components/XLoading";
 import { useRouter } from "next/navigation";
-import { ImSpinner2 } from "react-icons/im";
 
 export default function Home() {
   const router = useRouter();
@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <div className="flex items-center justify-center h-screen">
       <div>
-        <ImSpinner2 className="animate-spin" />
+        <XLoading/>
       </div>
     </div>
   );
