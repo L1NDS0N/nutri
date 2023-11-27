@@ -1,4 +1,8 @@
-"use client";
+'use client';
+import { Button } from 'primereact/button';
+import { Calendar } from 'primereact/calendar';
+import { Dropdown } from 'primereact/dropdown';
+import { InputText } from 'primereact/inputtext';
 
 export default function Patient() {
   return (
@@ -6,65 +10,41 @@ export default function Patient() {
       <h2 className="text-2xl font-bold mb-4">Paciente</h2>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label
-            htmlFor="fullName"
-            className="block text-sm font-medium text-gray-600"
-          >
-            Nome Completo
-          </label>
-          <input
-            type="text"
+          <label htmlFor="fullName">Nome Completo</label>
+          <InputText
             id="fullName"
             name="fullName"
-            className="w-full border-2 rounded-md p-2 focus:outline-none focus:ring focus:border-blue-300"
+            className="w-full"
             required
           />
         </div>
         <div>
-          <label
-            htmlFor="gender"
-            className="block text-sm font-medium text-gray-600"
-          >
-            Gênero
-          </label>
-          <select
+          <label htmlFor="gender">Gênero</label>
+          <Dropdown
             id="gender"
             name="gender"
-            className="w-full border-2 rounded-md p-2 focus:outline-none focus:ring focus:border-blue-300"
+            className="w-full"
+            placeholder="Selecione"
+            options={[
+              { label: 'Masculino', value: 'male' },
+              { label: 'Feminino', value: 'female' },
+            ]}
             required
-          >
-            <option value="">Selecione</option>
-            <option value="male">Masculino</option>
-            <option value="female">Feminino</option>
-          </select>
+          />
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4 mt-4">
         <div>
-          <label
-            htmlFor="birthDate"
-            className="block text-sm font-medium text-gray-600"
-          >
-            Data de Nascimento
-          </label>
-          <input
-            type="date"
-            id="birthDate"
-            name="birthDate"
-            className="w-full border-2 rounded-md p-2 focus:outline-none focus:ring focus:border-blue-300"
-            required
-          />
+          <label htmlFor="birthDate">Data de Nascimento</label>
+          <Calendar id="birthDate" name="birthDate" showIcon required />
         </div>
       </div>
 
       <div className="mt-6">
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
-        >
+        <Button type="submit" className="w-full ">
           Enviar
-        </button>
+        </Button>
       </div>
     </form>
   );
