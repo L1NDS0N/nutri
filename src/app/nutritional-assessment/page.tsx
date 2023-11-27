@@ -30,32 +30,30 @@ export default function AvaliacaoNutricional() {
         Formulário de Avaliação Nutricional
       </h2>
 
-      <div className="grid grid-cols-2 gap-4 mt-4">
-        <div>
-          <label htmlFor="patient">Selecione um Paciente</label>
-          <Dropdown
-            id="patient"
-            name="patient"
-            optionLabel="name"
-            options={mockPatients}
-            placeholder="Escolha um paciente"
-          />
-        </div>
+      <div className="flex flex-col">
+        <label htmlFor="patient">Selecione um Paciente</label>
+        <Dropdown
+          id="patient"
+          name="patient"
+          optionLabel="name"
+          options={mockPatients}
+          placeholder="Escolha um paciente"
+        />
       </div>
-
-      <div className="grid grid-cols-2 gap-4 mt-4">
-        <div>
+      <div className="md:flex gap-4">
+        <div className="flex flex-col flex-1">
           <label htmlFor="weight">Peso (kg)</label>
           <InputNumber id="weight" name="weight" required />
         </div>
-        <div>
+
+        <div className="flex flex-col flex-1">
           <label htmlFor="height">Altura (cm)</label>
           <InputNumber id="height" name="height" required />
         </div>
       </div>
 
       <div className="mt-6">
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full justify-center">
           Enviar
         </Button>
       </div>
