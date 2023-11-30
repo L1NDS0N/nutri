@@ -4,7 +4,7 @@ import { Calendar } from 'primereact/calendar';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 
-export default function Patient() {
+export default function PatientPage() {
   return (
     <form className="max-w-xl mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
       <h2 className="text-2xl font-bold">Paciente</h2>

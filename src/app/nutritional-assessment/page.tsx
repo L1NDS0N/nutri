@@ -23,7 +23,7 @@ const mockPatients = [
   // Adicione mais pacientes conforme necessário
 ];
 
-export default function AvaliacaoNutricional() {
+export default function NutritionalAssessmentPage() {
   return (
     <form className="max-w-xl mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
       <h2 className="text-2xl font-bold mb-4">
