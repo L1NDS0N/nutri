@@ -7,9 +7,9 @@ export enum EPatientGender {
 }
 
 export class Patient extends Z.class({
-  id: z.number(),
-  name: z.string(),
-  gender: z.nativeEnum(EPatientGender).nullable(),
-  birthday: z.date().nullable(),
-  phone: z.string().nullable(),
+  id: z.number().optional(),
+  name: z.string().optional(),
+  gender: z.nativeEnum(EPatientGender).optional(),
+  birthday: z.date().optional(),
+  phone: z.string().optional(),
 }) {}

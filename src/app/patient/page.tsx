@@ -1,35 +1,62 @@
-'use client';
-import { Button } from 'primereact/button';
-import { Calendar } from 'primereact/calendar';
-import { Dropdown } from 'primereact/dropdown';
-import { InputText } from 'primereact/inputtext';
+"use client";
+import { EPatientGender, Patient } from "@/models/patient.model";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "primereact/button";
+import { Calendar } from "primereact/calendar";
+import { Dropdown } from "primereact/dropdown";
+import { InputText } from "primereact/inputtext";
+import { useForm } from "react-hook-form";
+import XRequiredLabel from "./../../components/XRequiredLabel";
 
 export default function PatientPage() {
+  async function handleSavePatient(data: Patient) {
+    console.log({ data });
+  }
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<Patient>({
+    resolver: zodResolver(Patient),
+  });
+
+  const genderField = register('gender')
+  
   return (
-    <form className="max-w-xl mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
+    <form
+      onSubmit={handleSubmit(handleSavePatient)}
+      className="max-w-xl mx-auto mt-8 p-6 bg-white rounded-md shadow-md"
+    >
+      {errors.name?.message}
       <h2 className="text-2xl font-bold">Paciente</h2>
       <div className="flex flex-col">
-        <label htmlFor="fullName">Nome Completo</label>
-        <InputText id="fullName" name="fullName" className="w-full" required />
+        <XRequiredLabel description="Nome Completo" />
+        <InputText className="w-full" {...register("name")} />
+        {errors.name?.message && (
+          <span className="text-red-500">{errors.name?.message}</span>
+        )}
       </div>
       <div className="md:flex gap-4">
         <div className="flex flex-col flex-1">
-          <label htmlFor="gender">Gênero</label>
+          <XRequiredLabel description="Gênero" />
           <Dropdown
-            id="gender"
-            name="gender"
             className="w-full"
             placeholder="Selecione"
             options={[
-              { label: 'Masculino', value: 'male' },
-              { label: 'Feminino', value: 'female' },
+              { label: "Masculino", value: EPatientGender.Male },
+              { label: "Feminino", value: EPatientGender.Female },
             ]}
-            required
+            ref={genderField.ref}
+            value={watch().gender}
+            onChange={(e) => setValue('gender', e.target.value)}
           />
         </div>
         <div className="flex flex-col">
-          <label htmlFor="birthDate">Data de Nascimento</label>
-          <Calendar id="birthDate" name="birthDate" showIcon required />
+          <XRequiredLabel description="Data de Nascimento" />
+          <Calendar showIcon {...register("birthday")} />
         </div>
       </div>
 
