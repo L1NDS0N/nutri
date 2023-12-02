@@ -1,7 +1,7 @@
 import { CoreService } from "./core.service";
 
 export class LoadingCrudService<
-  T extends { id: number | string }
+  T extends { id?: number | string }
 > extends CoreService {
   private isLoadingCrud = false;
 
