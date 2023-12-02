@@ -1,5 +1,6 @@
 "use client";
 import { EPatientGender, Patient } from "@/models/patient.model";
+import { PatientService } from "@/services/api/patient.service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
@@ -9,8 +10,9 @@ import { useForm } from "react-hook-form";
 import XRequiredLabel from "./../../components/XRequiredLabel";
 
 export default function PatientPage() {
+  const patientService = new PatientService();
   async function handleSavePatient(data: Patient) {
-    console.log({ data });
+    patientService.updateOne({ data: { name: "ok" } });
   }
 
   const {
@@ -23,8 +25,8 @@ export default function PatientPage() {
     resolver: zodResolver(Patient),
   });
 
-  const genderField = register('gender')
-  
+  const genderField = register("gender");
+
   return (
     <form
       onSubmit={handleSubmit(handleSavePatient)}
@@ -51,7 +53,7 @@ export default function PatientPage() {
             ]}
             ref={genderField.ref}
             value={watch().gender}
-            onChange={(e) => setValue('gender', e.target.value)}
+            onChange={(e) => setValue("gender", e.target.value)}
           />
         </div>
         <div className="flex flex-col">

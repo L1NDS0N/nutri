@@ -17,16 +17,16 @@ export class CoreService {
     this.resource = resource;
   }
 
-  get({ endpoint, config }: BasicResource = {}) {
+  protected get({ endpoint, config }: BasicResource = {}) {
     return this.api.get(`${this.resource}/${endpoint}`, config);
   }
-  post({ endpoint, data, config }: SendDataResource) {
+  protected post({ endpoint, data, config }: SendDataResource) {
     return this.api.post(`${this.resource}/${endpoint}`, data, config);
   }
-  put({ endpoint, data, config }: SendDataResource) {
+  protected put({ endpoint, data, config }: SendDataResource) {
     return this.api.put(`${this.resource}/${endpoint}`, data, config);
   }
-  delete({ endpoint, config }: BasicResource = {}) {
+  protected delete({ endpoint, config }: BasicResource = {}) {
     return this.api.delete(`${this.resource}/${endpoint}`, config);
   }
 }
