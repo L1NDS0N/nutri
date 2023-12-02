@@ -20,7 +20,6 @@ export class LoadingCrudService<
   }
 
   updateOne({ data }: { data: Partial<T> }) {
-    this.validateIdPresent(data);
     this.startLoading();
     return this.put({ endpoint: `${data.id}`, data });
   }

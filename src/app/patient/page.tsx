@@ -12,7 +12,7 @@ import XRequiredLabel from "./../../components/XRequiredLabel";
 export default function PatientPage() {
   const patientService = new PatientService();
   async function handleSavePatient(data: Patient) {
-    patientService.updateOne({ data: { name: "ok" } });
+    patientService.storeOne({ data }).then((data) => console.log(data));
   }
 
   const {
