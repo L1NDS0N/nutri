@@ -1,5 +1,8 @@
 import { ImSpinner2 } from "react-icons/im";
 
-export default function XLoading(){
-    return <ImSpinner2 className="animate-spin" />
+type XLoadingProps = {
+  isLoading?: boolean;
+};
+export default function XLoading({ isLoading }: XLoadingProps) {
+  if (isLoading) return <ImSpinner2 className="animate-spin" />;
 }

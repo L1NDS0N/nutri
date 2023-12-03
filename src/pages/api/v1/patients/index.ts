@@ -5,6 +5,6 @@ export default function handler(
   res: NextApiResponse<any>
 ) {
   const { body } = req;
-  console.log(body);
-  return res.status(200).json({ body });
+  const any = { gender: 1, name: 'teste', birthday: null}
+  return res.status(200).json({ body, any});
 }

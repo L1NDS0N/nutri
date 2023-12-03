@@ -1,8 +1,11 @@
 import { Patient } from "@/models/patient.model";
-import { LoadingCrudService } from "./loading-crud.service";
+import {
+  LoadingCrudService,
+  SetLoadingTypesFn
+} from "./loading-crud.service";
 
 export class PatientService extends LoadingCrudService<Patient> {
-  constructor() {
-    super({ resource: "patients" });
+  constructor({ setLoading }: { setLoading: SetLoadingTypesFn }) {
+    super({ resource: "patients", setLoading });
   }
 }
