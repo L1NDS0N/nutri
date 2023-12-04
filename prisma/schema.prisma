@@ -9,3 +9,13 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model Patient {
+  id         String    @id @default(uuid())
+  name       String
+  gender     Boolean?
+  birthday   DateTime?
+  phone      String?
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+}
