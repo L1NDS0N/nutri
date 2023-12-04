@@ -11,11 +11,22 @@ datasource db {
 }
 
 model Patient {
-  id         String    @id @default(uuid())
-  name       String
-  gender     Boolean?
-  birthday   DateTime?
-  phone      String?
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
+  id                    String                  @id @default(uuid())
+  name                  String
+  gender                Boolean?
+  birthday              DateTime?
+  phone                 String?
+  created_at            DateTime                @default(now())
+  updated_at            DateTime                @updatedAt
+  NutritionalAssessment NutritionalAssessment[]
+}
+
+model NutritionalAssessment {
+  id         String   @id @default(uuid())
+  weight     Float?
+  height     Float?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  patient_id String
+  patient    Patient  @relation(fields: [patient_id], references: [id])
 }
