@@ -1,27 +1,31 @@
-"use client";
-import { EPatientGender, Patient } from "@/models/patient.model";
-import {
-  LoadingTypes,
-  initialLoadingTypes,
-} from "@/services/api/loading-crud.service";
-import { PatientService } from "@/services/api/patient.service";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "primereact/button";
-import { Calendar } from "primereact/calendar";
-import { Dropdown } from "primereact/dropdown";
-import { InputText } from "primereact/inputtext";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import XRequiredLabel from "./../../components/XRequiredLabel";
-import XLoading from "@/components/XLoading";
+'use client';
+import { useToast } from '@/contexts/ToastContext';
+import { EPatientGender, Patient } from '@/models/patient.model';
+import { initialLoadingTypes } from '@/services/api/loading-crud.service';
+import { PatientService } from '@/services/api/patient.service';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button } from 'primereact/button';
+import { Calendar } from 'primereact/calendar';
+import { Dropdown } from 'primereact/dropdown';
+import { InputText } from 'primereact/inputtext';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import XRequiredLabel from './../../components/XRequiredLabel';
 
 export default function PatientPage() {
   const [patientRequest, setPatientRequest] = useState(initialLoadingTypes);
   const patientService = new PatientService({ setLoading: setPatientRequest });
+  const toast = useToast();
+
   async function handleSavePatient(data: Patient) {
-    patientService
-      .storeOne({ data })
-      .then((data) => console.log("succesul: ", data));
+    patientService.storeOne({ data }).then(data => {
+      toast.showToast({
+        severity: 'success',
+        summary: 'Parabuaims',
+        detail: JSON.stringify(data.data.body),
+        life: 3000,
+      });
+    });
   }
 
   const {
@@ -33,7 +37,7 @@ export default function PatientPage() {
   } = useForm<Patient>({
     resolver: zodResolver(Patient),
   });
-  const genderField = register("gender");
+  const genderField = register('gender');
 
   return (
     <>
@@ -44,7 +48,7 @@ export default function PatientPage() {
         <h2 className="text-2xl font-bold">Paciente</h2>
         <div className="flex flex-col">
           <XRequiredLabel description="Nome Completo" />
-          <InputText className="w-full" {...register("name")} />
+          <InputText className="w-full" {...register('name')} />
           {errors.name?.message && (
             <span className="text-red-500">{errors.name?.message}</span>
           )}
@@ -56,23 +60,26 @@ export default function PatientPage() {
               className="w-full"
               placeholder="Selecione"
               options={[
-                { label: "Masculino", value: EPatientGender.Male },
-                { label: "Feminino", value: EPatientGender.Female },
+                { label: 'Masculino', value: EPatientGender.Male },
+                { label: 'Feminino', value: EPatientGender.Female },
               ]}
               ref={genderField.ref}
               value={watch().gender}
-              onChange={(e) => setValue("gender", e.target.value)}
+              onChange={e => setValue('gender', e.target.value)}
             />
           </div>
           <div className="flex flex-col">
             <XRequiredLabel description="Data de Nascimento" />
-            <Calendar showIcon {...register("birthday")} />
+            <Calendar showIcon {...register('birthday')} />
           </div>
         </div>
 
         <div className="mt-6">
-          <Button type="submit" className="w-full justify-center gap-2" disabled={patientRequest.isStoring}>
-            <XLoading isLoading={patientRequest.isStoring} />
+          <Button
+            type="submit"
+            className="w-full justify-center gap-2"
+            loading={patientRequest.isStoring}
+          >
             Enviar
           </Button>
         </div>
