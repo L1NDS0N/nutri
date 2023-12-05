@@ -13,7 +13,7 @@ datasource db {
 model Patient {
   id                    String                  @id @default(uuid())
   name                  String
-  gender                Boolean?
+  gender                Int
   birthday              DateTime?
   phone                 String?
   created_at            DateTime                @default(now())

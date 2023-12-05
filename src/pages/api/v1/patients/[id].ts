@@ -3,6 +3,7 @@ import { TResourcesRunner } from '@/server/core/resources-runner';
 
 export default new TResourcesRunner(
   PatientController,
-  'index',
-  'store',
+  'show',
+  'update',
+  'delete',
 ).handler();
