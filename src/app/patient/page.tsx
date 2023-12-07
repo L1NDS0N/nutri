@@ -18,11 +18,11 @@ export default function PatientPage() {
   const toast = useToast();
 
   async function handleSavePatient(data: Patient) {
-    patientService.storeOne({ data }).then(data => {
+    patientService.storeOne({ data }).then(({data}) => {
       toast.showToast({
         severity: 'success',
         summary: 'Parabuaims',
-        detail: JSON.stringify(data.data.body),
+        detail: JSON.stringify(data),
         life: 3000,
       });
     });

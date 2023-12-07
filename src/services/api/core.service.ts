@@ -1,6 +1,6 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig } from 'axios';
 
-const api_v1 = axios.create({ baseURL: "/api/v1" });
+const api_v1 = axios.create({ baseURL: '/api/v1' });
 
 interface BasicResource {
   endpoint?: string;
@@ -17,16 +17,16 @@ export class CoreService {
     this.resource = resource;
   }
 
-  protected get({ endpoint, config }: BasicResource = {}) {
-    return this.api.get(`${this.resource}/${endpoint ?? ''}`, config);
+  protected get<T>({ endpoint, config }: BasicResource = {}) {
+    return this.api.get<T>(`${this.resource}/${endpoint ?? ''}`, config);
   }
-  protected post({ endpoint, data, config }: SendDataResource) {
-    return this.api.post(`${this.resource}/${endpoint ?? ''}`, data, config);
+  protected post<T>({ endpoint, data, config }: SendDataResource) {
+    return this.api.post<T>(`${this.resource}/${endpoint ?? ''}`, data, config);
   }
-  protected put({ endpoint, data, config }: SendDataResource) {
-    return this.api.put(`${this.resource}/${endpoint ?? ''}`, data, config);
+  protected put<T>({ endpoint, data, config }: SendDataResource) {
+    return this.api.put<T>(`${this.resource}/${endpoint ?? ''}`, data, config);
   }
-  protected delete({ endpoint, config }: BasicResource = {}) {
-    return this.api.delete(`${this.resource}/${endpoint ?? ''}`, config);
+  protected delete<T>({ endpoint, config }: BasicResource = {}) {
+    return this.api.delete<T>(`${this.resource}/${endpoint ?? ''}`, config);
   }
 }
