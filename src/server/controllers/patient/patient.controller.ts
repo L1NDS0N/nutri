@@ -6,9 +6,9 @@ import TGenericController from '../generic-controller/generic-controller';
 export class PatientController extends TGenericController<Patient> {
   constructor(router: NextApiRouter) {
     super(router, new PatientRepository(), {
-      subjectSingular: 'Categoria',
-      genre: 'fem',
-      subjectPlural: 'Categorias',
+      subjectSingular: 'Paciente',
+      subjectPlural: 'Pacientes',
+      genre: 'male',
     });
   }
 }
