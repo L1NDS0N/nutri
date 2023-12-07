@@ -1,16 +1,18 @@
-'use client';
-import { NutritionalAssessment } from '@/models/nutritional-assessment.model';
-import { Patient } from '@/models/patient.model';
-import { PatientService } from '@/services/api/patient.service';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from 'primereact/button';
-import { Dropdown } from 'primereact/dropdown';
-import { InputText } from 'primereact/inputtext';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+"use client";
+import { NutritionalAssessment } from "@/models/nutritional-assessment.model";
+import { Patient } from "@/models/patient.model";
+import { initialLoadingTypes } from "@/services/api/loading-crud.service";
+import { PatientService } from "@/services/api/patient.service";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "primereact/button";
+import { Dropdown } from "primereact/dropdown";
+import { InputText } from "primereact/inputtext";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function NutritionalAssessmentPage() {
-  const patientService = new PatientService();
+  const [patientRequest, setPatientRequest] = useState(initialLoadingTypes);
+  const patientService = new PatientService({ setLoading: setPatientRequest });
   const [patients, setPatients] = useState<Patient[]>([]);
   useEffect(() => {
     patientService.index().then(({ data }) => {
@@ -27,7 +29,7 @@ export default function NutritionalAssessmentPage() {
   } = useForm<NutritionalAssessment>({
     resolver: zodResolver(NutritionalAssessment),
   });
-  const patientField = register('patient_id');
+  const patientField = register("patient_id");
   console.log(watch());
   return (
     <form className="max-w-xl mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
@@ -43,19 +45,19 @@ export default function NutritionalAssessmentPage() {
           options={patients}
           placeholder="Escolha um paciente"
           ref={patientField.ref}
-          onChange={e => setValue('patient_id', e.target.value)}
+          onChange={(e) => setValue("patient_id", e.target.value)}
           value={watch().patient_id}
         />
       </div>
       <div className="md:flex gap-4">
         <div className="flex flex-col flex-1">
           <label htmlFor="weight">Peso (kg)</label>
-          <InputText {...register('weight')} />
+          <InputText {...register("weight")} />
         </div>
 
         <div className="flex flex-col flex-1">
           <label htmlFor="height">Altura (cm)</label>
-          <InputText {...register('height')} />
+          <InputText {...register("height")} />
         </div>
       </div>
 
