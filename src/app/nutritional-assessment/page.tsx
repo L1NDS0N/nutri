@@ -1,5 +1,4 @@
 'use client';
-import XLoadingDropdown from '@/components/XLoadingDropdown';
 import XRequiredLabel from '@/components/XRequiredLabel';
 import { NutritionalAssessment } from '@/models/nutritional-assessment.model';
 import { Patient } from '@/models/patient.model';
