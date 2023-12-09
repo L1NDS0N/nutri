@@ -1,9 +1,11 @@
 'use client';
 import { XDropdown } from '@/components/XDrodpown';
 import { XRequiredLabel } from '@/components/XRequiredLabel';
+import { useToast } from '@/contexts/ToastContext';
 import { NutritionalAssessment } from '@/models/nutritional-assessment.model';
 import { Patient } from '@/models/patient.model';
 import { initialLoadingTypes } from '@/services/api/loading-crud.service';
+import { NutritionalAssessmentService } from '@/services/api/nutritional-assessment.service';
 import { PatientService } from '@/services/api/patient.service';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from 'primereact/button';
@@ -15,6 +17,7 @@ export default function NutritionalAssessmentPage() {
   const [patientRequest, setPatientRequest] = useState(initialLoadingTypes);
   const patientService = new PatientService({ setLoading: setPatientRequest });
   const [patients, setPatients] = useState<Patient[]>([]);
+  const toast = useToast();
   useEffect(() => {
     patientService.index().then(({ data }) => {
       setPatients(data);
@@ -30,10 +33,20 @@ export default function NutritionalAssessmentPage() {
     resolver: zodResolver(NutritionalAssessment),
   });
   const { patient_id, weight, height } = watch();
-
+  const [nutriAssmtRequest, setNutriAssmtRequest] = useState(initialLoadingTypes);
+  const nutriAssmtService = new NutritionalAssessmentService({ setLoading: setNutriAssmtRequest });
+  
   async function handleSaveNutritionalAssessment(data: NutritionalAssessment) {
-    console.log(data);
+    nutriAssmtService.storeOne({data}).then(() => {
+      toast.showToast({
+        severity: 'success',
+        summary: 'Parabuaims',
+        detail: JSON.stringify(data),
+        life: 3000,
+      });
+    });
   }
+  
   return (
     <form
       onSubmit={handleSubmit(handleSaveNutritionalAssessment)}
@@ -92,7 +105,7 @@ export default function NutritionalAssessmentPage() {
       </div>
 
       <div className="mt-6">
-        <Button type="submit" className="w-full justify-center">
+        <Button loading={nutriAssmtRequest.isStoring} type="submit" className="w-full justify-center">
           Enviar
         </Button>
       </div>

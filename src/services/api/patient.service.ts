@@ -1,4 +1,4 @@
-import { Patient } from '@/models/patient.model';
+import type { Patient } from '@/models/patient.model';
 import { LoadingCrudService, SetLoadingTypesFn } from './loading-crud.service';
 
 export class PatientService extends LoadingCrudService<Patient> {
