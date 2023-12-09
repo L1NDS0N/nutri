@@ -3,7 +3,7 @@ import { LabelHTMLAttributes } from 'react';
 type RequiredLabelProps = LabelHTMLAttributes<{}> & {
   description: string;
 };
-export default function XRequiredLabel({
+export function XRequiredLabel({
   description,
   ...props
 }: RequiredLabelProps) {

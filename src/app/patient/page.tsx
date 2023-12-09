@@ -10,7 +10,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import XRequiredLabel from './../../components/XRequiredLabel';
+import { XRequiredLabel } from './../../components/XRequiredLabel';
 
 export default function PatientPage() {
   const [patientRequest, setPatientRequest] = useState(initialLoadingTypes);

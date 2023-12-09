@@ -1,12 +1,12 @@
 'use client';
-import XRequiredLabel from '@/components/XRequiredLabel';
+import { XDropdown } from '@/components/XDrodpown';
+import { XRequiredLabel } from '@/components/XRequiredLabel';
 import { NutritionalAssessment } from '@/models/nutritional-assessment.model';
 import { Patient } from '@/models/patient.model';
 import { initialLoadingTypes } from '@/services/api/loading-crud.service';
 import { PatientService } from '@/services/api/patient.service';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from 'primereact/button';
-import { Dropdown } from 'primereact/dropdown';
 import { InputNumber } from 'primereact/inputnumber';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -22,7 +22,6 @@ export default function NutritionalAssessmentPage() {
   }, []);
 
   const {
-    register,
     handleSubmit,
     watch,
     setValue,
@@ -30,8 +29,6 @@ export default function NutritionalAssessmentPage() {
   } = useForm<NutritionalAssessment>({
     resolver: zodResolver(NutritionalAssessment),
   });
-  const patientField = register('patient_id');
-  const { ref } = register('weight');
   const { patient_id, weight, height } = watch();
 
   async function handleSaveNutritionalAssessment(data: NutritionalAssessment) {
@@ -46,18 +43,18 @@ export default function NutritionalAssessmentPage() {
         Formulário de Avaliação Nutricional
       </h2>
 
-      <div className="flex flex-col ">
+      <div className="flex flex-col gap-2">
         <div className="flex flex-col ">
           <XRequiredLabel description="Selecione um Paciente" />
-          <Dropdown
+          <XDropdown
             name="patient_id"
             optionLabel="name"
             optionValue="id"
             options={patients}
             placeholder="Escolha um paciente"
             onChange={e => setValue('patient_id', e.target.value)}            
-            filter={true}
             value={patient_id}
+            loading={patientRequest.isLoading}
           />
           {errors.patient_id?.message && (
             <span className="text-red-500">{errors.patient_id?.message}</span>
@@ -71,7 +68,6 @@ export default function NutritionalAssessmentPage() {
               suffix="kg"
               maxFractionDigits={2}
               value={weight}
-              ref={ref}
               onValueChange={e => setValue('weight', e.target?.value as any)}
             />
             {errors.weight?.message && (
