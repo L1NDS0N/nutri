@@ -3,9 +3,9 @@ export default function XTopbar() {
         <header className="bg-gray-700 text-white p-4">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-lg font-bold">Nutrição</h1>
+              <h1 className="font-bold">Nutrição</h1>
             </div>
-            <nav className="hidden sm:block">
+            <nav className="sm:block">
               <ul className="flex space-x-4">
                 <li>
                   <a href="#" className="hover:text-gray-300">Configurações</a>
