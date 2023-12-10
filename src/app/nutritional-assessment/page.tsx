@@ -13,6 +13,7 @@ import { Button } from "primereact/button";
 import { InputNumber } from "primereact/inputnumber";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { MdOutlineAssessment } from "react-icons/md";
 
 export default function NutritionalAssessmentPage() {
   const [patientRequest, setPatientRequest] = useState(initialLoadingTypes);
@@ -53,7 +54,8 @@ export default function NutritionalAssessmentPage() {
 
   return (
     <XForm
-      title="Avaliação Nutricional"
+      legend="Avaliação Nutricional"
+      icon={<MdOutlineAssessment />}
       onSubmit={handleSubmit(handleSaveNutritionalAssessment)}
     >
       <div className="flex flex-col gap-2">

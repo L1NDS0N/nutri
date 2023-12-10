@@ -11,6 +11,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { BsPersonFillAdd } from "react-icons/bs";
 import { XRequiredLabel } from './../../components/XRequiredLabel';
 
 export default function PatientPage() {
@@ -43,8 +44,9 @@ export default function PatientPage() {
   return (
     <>
       <XForm
-        title="Paciente"
+        legend="Paciente"
         onSubmit={handleSubmit(handleSavePatient)}
+        icon={<BsPersonFillAdd />}
       >
         <div className="flex flex-col">
           <XRequiredLabel description="Nome Completo" />

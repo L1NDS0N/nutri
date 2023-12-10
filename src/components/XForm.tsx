@@ -1,18 +1,24 @@
+import { Fieldset, FieldsetProps } from "primereact/fieldset";
+import { IconType } from "primereact/utils";
 import type { FormHTMLAttributes, ReactNode } from "react";
 
 type XFormProps = {
-  title: string;
+  legend: string;
   children: ReactNode;
+  icon?: IconType<FieldsetProps>;
 } & FormHTMLAttributes<HTMLFormElement>;
-export function XForm({ title, children, ...rest }: XFormProps) {
+export function XForm({ legend, children, icon, ...rest }: XFormProps) {
   return (
-    <form
-      {...rest}
-      className="max-w-3xl mx-auto mt-8 p-6 bg-white rounded-md shadow-md"
-    >
-      <h2 className="text-2xl font-bold">{title}</h2>
-      <hr className="m-4" />
-      {children}
-    </form>
+    <div>
+      <Fieldset legend={legend} toggleable collapseIcon={icon} expandIcon={icon} onToggle={() => {}}>
+        <form
+          {...rest}
+          
+          className="max-w-3xl mx-auto my-4 p-6 bg-white rounded-md shadow-md"
+        >
+          {children}
+        </form>
+      </Fieldset>
+    </div>
   );
 }
