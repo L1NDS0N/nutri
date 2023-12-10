@@ -1,4 +1,5 @@
 'use client';
+import { XForm } from '@/components/XForm';
 import { useToast } from '@/contexts/ToastContext';
 import { EPatientGender, Patient } from '@/models/patient.model';
 import { initialLoadingTypes } from '@/services/api/loading-crud.service';
@@ -41,11 +42,10 @@ export default function PatientPage() {
 
   return (
     <>
-      <form
+      <XForm
+        title="Paciente"
         onSubmit={handleSubmit(handleSavePatient)}
-        className="max-w-xl mx-auto mt-8 p-6 bg-white rounded-md shadow-md"
       >
-        <h2 className="text-2xl font-bold">Paciente</h2>
         <div className="flex flex-col">
           <XRequiredLabel description="Nome Completo" />
           <InputText className="w-full" {...register('name')} />
@@ -83,7 +83,7 @@ export default function PatientPage() {
             Enviar
           </Button>
         </div>
-      </form>
+      </XForm>
     </>
   );
 }

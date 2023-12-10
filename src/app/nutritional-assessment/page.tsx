@@ -1,17 +1,18 @@
-'use client';
-import { XDropdown } from '@/components/XDrodpown';
-import { XRequiredLabel } from '@/components/XRequiredLabel';
-import { useToast } from '@/contexts/ToastContext';
-import { NutritionalAssessment } from '@/models/nutritional-assessment.model';
-import { Patient } from '@/models/patient.model';
-import { initialLoadingTypes } from '@/services/api/loading-crud.service';
-import { NutritionalAssessmentService } from '@/services/api/nutritional-assessment.service';
-import { PatientService } from '@/services/api/patient.service';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from 'primereact/button';
-import { InputNumber } from 'primereact/inputnumber';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+"use client";
+import { XDropdown } from "@/components/XDrodpown";
+import { XForm } from "@/components/XForm";
+import { XRequiredLabel } from "@/components/XRequiredLabel";
+import { useToast } from "@/contexts/ToastContext";
+import { NutritionalAssessment } from "@/models/nutritional-assessment.model";
+import { Patient } from "@/models/patient.model";
+import { initialLoadingTypes } from "@/services/api/loading-crud.service";
+import { NutritionalAssessmentService } from "@/services/api/nutritional-assessment.service";
+import { PatientService } from "@/services/api/patient.service";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "primereact/button";
+import { InputNumber } from "primereact/inputnumber";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function NutritionalAssessmentPage() {
   const [patientRequest, setPatientRequest] = useState(initialLoadingTypes);
@@ -33,29 +34,28 @@ export default function NutritionalAssessmentPage() {
     resolver: zodResolver(NutritionalAssessment),
   });
   const { patient_id, weight, height } = watch();
-  const [nutriAssmtRequest, setNutriAssmtRequest] = useState(initialLoadingTypes);
-  const nutriAssmtService = new NutritionalAssessmentService({ setLoading: setNutriAssmtRequest });
-  
+  const [nutriAssmtRequest, setNutriAssmtRequest] =
+    useState(initialLoadingTypes);
+  const nutriAssmtService = new NutritionalAssessmentService({
+    setLoading: setNutriAssmtRequest,
+  });
+
   async function handleSaveNutritionalAssessment(data: NutritionalAssessment) {
-    nutriAssmtService.storeOne({data}).then(() => {
+    nutriAssmtService.storeOne({ data }).then(() => {
       toast.showToast({
-        severity: 'success',
-        summary: 'Parabuaims',
+        severity: "success",
+        summary: "Parabuaims",
         detail: JSON.stringify(data),
         life: 3000,
       });
     });
   }
-  
-  return (
-    <form
-      onSubmit={handleSubmit(handleSaveNutritionalAssessment)}
-      className="max-w-3xl mx-auto mt-8 p-6 bg-white rounded-md shadow-md"
-    >
-      <h2 className="text-2xl font-bold mb-4">
-        Formulário de Avaliação Nutricional
-      </h2>
 
+  return (
+    <XForm
+      title="Avaliação Nutricional"
+      onSubmit={handleSubmit(handleSaveNutritionalAssessment)}
+    >
       <div className="flex flex-col gap-2">
         <div className="flex flex-col ">
           <XRequiredLabel description="Selecione um Paciente" />
@@ -65,7 +65,7 @@ export default function NutritionalAssessmentPage() {
             optionValue="id"
             options={patients}
             placeholder="Escolha um paciente"
-            onChange={e => setValue('patient_id', e.target.value)}            
+            onChange={(e) => setValue("patient_id", e.target.value)}
             value={patient_id}
             loading={patientRequest.isLoading}
           />
@@ -81,7 +81,7 @@ export default function NutritionalAssessmentPage() {
               suffix="kg"
               maxFractionDigits={2}
               value={weight}
-              onValueChange={e => setValue('weight', e.target?.value as any)}
+              onValueChange={(e) => setValue("weight", e.target?.value as any)}
             />
             {errors.weight?.message && (
               <span className="text-red-500">{errors.weight?.message}</span>
@@ -95,7 +95,7 @@ export default function NutritionalAssessmentPage() {
               suffix="m"
               maxFractionDigits={2}
               value={height}
-              onValueChange={e => setValue('height', e.target?.value as any)}
+              onValueChange={(e) => setValue("height", e.target?.value as any)}
             />
             {errors.height?.message && (
               <span className="text-red-500">{errors.height?.message}</span>
@@ -105,10 +105,14 @@ export default function NutritionalAssessmentPage() {
       </div>
 
       <div className="mt-6">
-        <Button loading={nutriAssmtRequest.isStoring} type="submit" className="w-full justify-center">
+        <Button
+          loading={nutriAssmtRequest.isStoring}
+          type="submit"
+          className="w-full justify-center"
+        >
           Enviar
         </Button>
       </div>
-    </form>
+    </XForm>
   );
 }
