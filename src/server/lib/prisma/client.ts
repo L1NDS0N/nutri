@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 
 const isTestEnv = process.env.NODE_ENV === 'test';
+const isProdEnv = process.env.NODE_ENV === 'production';
 
 export default class Prisma {
 	private static prismaClient: PrismaClient;
@@ -12,7 +13,7 @@ export default class Prisma {
 			Prisma.prismaClient = new PrismaClient({
 				datasources: {
 					db: {
-						url: isTestEnv ? 'file:tests.db' : 'file:dev.db',
+						url: isProdEnv ? process.env.DATABASE_URL : 'file:dev.db',
 					},
 				},
 				log: isTestEnv ? [] : ['query'],
