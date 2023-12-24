@@ -39,7 +39,6 @@ export default function NutritionalAssessmentPage() {
   const { patient_id, weight, height } = watch();
   const imc = NutritionalAssessment.imcFrom({ height, weight });
   const {imc_caption, imc_color} = NutritionalAssessment.imcCaptionFrom(imc);
-  console.log({ height, weight, imc });
 
   const [nutriAssmtRequest, setNutriAssmtRequest] =
     useState(initialLoadingTypes);
@@ -78,7 +77,6 @@ export default function NutritionalAssessmentPage() {
               valueColor={imc_color}
               strokeWidth={Math.round(4 * (imc / 12))}
             />
-            <span>{imc_caption}</span>
           </div>
         </div>
         <div className="flex flex-col gap-2">

@@ -16,6 +16,7 @@ model Patient {
   gender                Int
   birthday              DateTime?
   phone                 String?
+  email                 String?                 
   created_at            DateTime                @default(now())
   updated_at            DateTime                @updatedAt
   NutritionalAssessment NutritionalAssessment[]
