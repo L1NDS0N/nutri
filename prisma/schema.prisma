@@ -16,7 +16,7 @@ model Patient {
   gender                Int
   birthday              DateTime?
   phone                 String?
-  email                 String?                 
+  email                 String?
   created_at            DateTime                @default(now())
   updated_at            DateTime                @updatedAt
   NutritionalAssessment NutritionalAssessment[]
@@ -30,4 +30,43 @@ model NutritionalAssessment {
   updated_at DateTime @updatedAt
   patient_id String
   patient    Patient  @relation(fields: [patient_id], references: [id])
+}
+
+model ChecklistModel {
+  id           Int               @id @default(autoincrement())
+  title        String
+  subtitle     String
+  informations String
+  objects      ChecklistObject[]
+}
+
+model ChecklistObject {
+  id                Int              @id @default(autoincrement())
+  checklistModelId  Int?
+  title             String
+  checklistOptionId Int
+  items             CheckListItems[]
+  ChecklistModel    ChecklistModel?  @relation(fields: [checklistModelId], references: [id])
+  options           ChecklistOption  @relation(fields: [checklistOptionId], references: [id])
+}
+
+model CheckListItems {
+  id                Int              @id
+  description       String
+  checklistObjectId Int?
+  ChecklistObject   ChecklistObject? @relation(fields: [checklistObjectId], references: [id])
+}
+
+model ChecklistOption {
+  id              Int                     @id @default(autoincrement())
+  title           String
+  options         CheckListOptionItems[]
+  ChecklistObject ChecklistObject[]
+}
+
+model CheckListOptionItems {
+  id                Int              @id @default(autoincrement())
+  name              String
+  checklistOptionId Int?
+  ChecklistOption   ChecklistOption? @relation(fields: [checklistOptionId], references: [id])
 }
