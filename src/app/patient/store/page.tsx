@@ -9,30 +9,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
 import { Dropdown } from "primereact/dropdown";
+import { InputMask } from "primereact/inputmask";
 import { InputText } from "primereact/inputtext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsPersonFillAdd } from "react-icons/bs";
+import { z } from "zod";
 
-import { InputMask } from 'primereact/inputmask';
-        
-
-export default function StorePatientPage() {
-  const [patientRequest, setPatientRequest] = useState(initialLoadingTypes);
-  const patientService = new PatientService({ setLoading: setPatientRequest });
-  const toast = useToast();
-
-  async function handleSavePatient(data: Patient) {
-    patientService.storeOne({ data }).then(({ data }) => {
-      toast.showToast({
-        severity: "success",
-        summary: "Parabuaims",
-        detail: JSON.stringify(data),
-        life: 3000,
-      });
-    });
-  }
-
+export default function StorePatientPage(zap: any, { id }: Partial<Patient>) {
   const {
     register,
     handleSubmit,
@@ -42,7 +26,49 @@ export default function StorePatientPage() {
   } = useForm<Patient>({
     resolver: zodResolver(Patient),
   });
+
   const genderField = register("gender");
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [patientRequest, setPatientRequest] = useState(initialLoadingTypes);
+  const patientService = new PatientService({ setLoading: setPatientRequest });
+  const toast = useToast();
+
+  async function handleSavePatient(data: Patient) {
+    if (isEditMode) {
+      patientService.updateOne({ data }).then(({ data }) => {
+        toast.showToast({
+          severity: "success",
+          summary: "Salvo com sucesso!",
+        life: 3000,
+      });
+    });
+    } else {
+      patientService.storeOne({ data }).then(({ data }) => {
+        toast.showToast({
+          severity: "success",
+          summary: "Criado com sucesso!",
+        life: 3000,
+      });
+    });
+  }
+  }
+  
+  useEffect(() => {
+    if (z.string().uuid().optional().parse(id)) {
+      patientService.show({ data: { id } }).then((patient) => {
+        setIsEditMode(true);
+        const {
+          data: { name, birthday, email, gender, id, phone },
+        } = patient;
+        setValue("id", id);
+        setValue("name", name);
+        setValue("birthday", new Date(birthday!));
+        setValue("email", email);
+        setValue("gender", gender);
+        setValue("phone", phone);
+      });
+    }
+  }, [id]);
 
   return (
     <>
@@ -51,9 +77,14 @@ export default function StorePatientPage() {
         onSubmit={handleSubmit(handleSavePatient)}
         breadCrumbProps={{
           model: [
-            { url: "/patient/store", label: "Novo", icon: BsPersonFillAdd, expanded: true, },
+            {
+              url: `/patient/store${isEditMode && "/" + id}`,
+              label: `${isEditMode ? "Editar" : "Novo"}`,
+              icon: BsPersonFillAdd,
+              expanded: true,
+            },
           ],
-          home: { url: '/patient', label: 'Paciente', icon: BsPersonFillAdd }
+          home: { url: "/patient", label: "Paciente", icon: BsPersonFillAdd },
         }}
       >
         <div className="flex flex-col">
@@ -80,19 +111,23 @@ export default function StorePatientPage() {
           </div>
           <div className="flex flex-col">
             <XRequiredLabel description="Data de Nascimento" />
-            <Calendar showIcon {...register("birthday")} />
+            <Calendar
+              showIcon
+              {...register("birthday")}
+              value={watch().birthday}
+            />
           </div>
         </div>
         <div className="md:flex gap-4">
-            <div className="flex flex-col flex-1">
-              <XRequiredLabel description="E-mail" />
-              <InputText {...register("email")} />
-            </div>
-            <div className="flex flex-col">
-              <XRequiredLabel description="Telefone" />
-              <InputMask mask={"(99) 99999-9999"} {...register("phone")} />
-            </div>
+          <div className="flex flex-col flex-1">
+            <XRequiredLabel description="E-mail" />
+            <InputText {...register("email")} />
           </div>
+          <div className="flex flex-col">
+            <XRequiredLabel description="Telefone" />
+            <InputMask mask={"(99) 99999-9999"} {...register("phone")} />
+          </div>
+        </div>
         <div className="mt-6">
           <Button
             type="submit"

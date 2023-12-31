@@ -5,6 +5,7 @@ import { Patient } from "@/models/patient.model";
 import { initialLoadingTypes } from "@/services/api/loading-crud.service";
 import { PatientService } from "@/services/api/patient.service";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FilterMatchMode } from "primereact/api";
 import { Button } from "primereact/button";
 import { Column } from "primereact/column";
@@ -16,11 +17,13 @@ import { FaPlus } from "react-icons/fa";
 
 export default function PatientPage() {
   const [filters, setFilters] = useState({
-    global: { value: null, matchMode: FilterMatchMode.CONTAINS }});
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  });
   const [patients, setPatients] = useState<Patient[]>();
   const [patientRequest, setPatientRequest] = useState(initialLoadingTypes);
   const patientService = new PatientService({ setLoading: setPatientRequest });
   const toast = useToast();
+  const router = useRouter();
 
   useEffect(() => {
     patientService.index().then(({ data }) => {
@@ -32,20 +35,17 @@ export default function PatientPage() {
     const value = event.target.value;
     let _filters = { ...filters };
 
-    _filters['global'].value = value;
+    _filters["global"].value = value;
 
     setFilters(_filters);
-};
+  };
 
   const header = (
     <div className="flex flex-wrap gap-2 align-items-center justify-content-between">
       <div className="flex flex-1 flex-col">
         <span className="p-input-icon-left">
           <BsSearch />
-          <InputText
-            onInput={onGlobalFilterChange}
-            placeholder="Buscar..."
-          />
+          <InputText onInput={onGlobalFilterChange} placeholder="Buscar..." />
         </span>
       </div>
 
@@ -79,8 +79,11 @@ export default function PatientPage() {
           value={patients}
           rowsPerPageOptions={[5, 10, 25, 50]}
           loading={patientRequest.isLoading}
+          onRowClick={(e) => {
+            router.push("patient/store/" + e.data.id);
+          }}
         >
-          <Column filter sortable field="name" header="Nome" />
+          <Column sortable field="name" header="Nome" />
           <Column sortable field="phone" header="Telefone" />
           <Column sortable field="email" header="E-mail" />
         </DataTable>
